@@ -1,5 +1,5 @@
 # 交叉观察器
-![](/20.png)
+![](../images/20.png)
 
 ### IntersectionObserver 介绍
 
@@ -11,7 +11,7 @@
 
 网页开发时，常常需要判断某个元素是否进入了"视口"（viewport），即用户能不能看到它，然后执行相应的逻辑。
 
-![](/21.gif)
+![](../images/21.gif)
 
 常见的方法是监听`scroll`事件，调用元素的`getBoundingClientRect`方法，得到它对应于视口左上角的坐标，再判断是否在视口之内。这种方法的缺点是，由于`scroll`事件密集发生，计算量很大，容易造成性能问题。
 
@@ -120,7 +120,7 @@ var observer = new IntersectionObserver(
 
 效果如下图：
 
-![](/22.gif)
+![](../images/22.gif)
 
 具体实现代码如下：
 
@@ -181,7 +181,7 @@ blocks.forEach(item => {
 
 ### 2. 统计页面模块曝光量
 
-![](/23.gif)
+![](../images/23.gif)
 
 具体代码如下：
 
@@ -252,4 +252,4 @@ npm install intersection-observer --save
 ### 关注我
 **扫一扫 关注我的公众号【前端名狮】，更多精彩内容陪伴你！**
 
-![](/7.png)
+![](../images/7.png)

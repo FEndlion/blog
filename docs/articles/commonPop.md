@@ -15,17 +15,17 @@
 
 比如以下弹窗：
 
-![image](/11.png)
+![image](../images/11.png)
 
-![image](/12.png)
+![image](../images/12.png)
 
-![image](/13.png)
+![image](../images/13.png)
 
-![image](/14.png)
+![image](../images/14.png)
 
 **这些还只是一类逻辑出现的弹窗，如果页面逻辑复杂，可能会出现几十个这种弹窗。上面的弹窗样式基本相同，不同的就是文案、按钮处理逻辑等，怎么抽离他们呢？**
 
-![image](/15.jpg)
+![image](../images/15.jpg)
 
 ### 抽离方案
 
@@ -238,4 +238,4 @@ this.$popUp(param);
 ***
 **扫一扫 关注我的公众号【前端名狮】，更多精彩内容陪伴你！**
 
-![](/7.png)
+![](../images/7.png)

@@ -1,6 +1,6 @@
 # 支持跨时区、兼容本地时间不准且不依赖后端接口的倒计时
 
-![](/8.png)
+![](../images/8.png)
 
 ### 前言
 
@@ -21,7 +21,7 @@
 看到上述场景，我们一般会想到下面的常规写法：
 
 
-```
+```js
 let target = Date.parse('2025/12/12 00:00:00');
 let now = Date.now();
 if(target <= now) {
@@ -70,7 +70,7 @@ if(target <= now) {
 
 **所以上面的业务场景，我们就可以把本地时间转换为东八区的北京时间，本地时间和目标倒计时时间都是东八区的时间，两者就可以进行比较判断了。**
 
-```
+```js
 let target = Date.parse('2025/12/12 00:00:00');
 let now = getNowDate(8); // 将本地时间转换为东8区的时间
 
@@ -98,7 +98,7 @@ function getNowDate(timeZone) {
 由于人为设置的原因，用户的本地时间，有可能不准确。要想保证倒计时的精确性，一般想到的方法是依赖后端接口，其实不依赖后端接口也可以保证倒计时精准，下面介绍下这两种方法：
 
 **1. 服务端接口返回当前时间戳**
-```
+```js
 let targetTime =  Date.parse('2025/12/12 00:00:00');
 let serverTime = getServerTime(); // 请求服务端接口，返回服务器当前时间戳
 let localTime = getNowDate(8); // 用户本地时间戳
@@ -150,11 +150,11 @@ HEAD请求常常被忽略，但是能提供很多有用的信息，特别是在�
 每个页面都会有html文档，这个也属于get请求，如下图所示：
 
 
-![](/9.jpg)
+![](../images/9.jpg)
 
 我们可以利用Head请求，拿到这个date头信息：
 
-```
+```js
 var xhr = new window.XMLHttpRequest;
 xhr.responseType = "document";
 // 通过get的方式请求当前文件
@@ -173,15 +173,15 @@ xhr.onreadystatechange = function () {
 
 得到的`time`是服务器对应的零时区的时间，通过下面代码可以转换为用户当前所在时区的时间：
 
-```
+```js
 new Date(time);
 ```
 
-![](/10.png)
+![](../images/10.png)
 
 所以倒计时代码就可以改写为：
 
-```
+```js
 var xhr = new window.XMLHttpRequest;
 xhr.responseType = "document";
 // 通过get的方式请求当前文件
@@ -237,6 +237,6 @@ function getNowDate(localTime, timeZone) {
 ### 关注我
 **扫一扫 关注我的公众号【前端名狮】，更多精彩内容陪伴你！**
 
-![](/7.png)
+![](../images/7.png)
 
 
