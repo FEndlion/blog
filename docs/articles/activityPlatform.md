@@ -24,12 +24,12 @@ H5页面由于其具有发布灵活、跨平台、易于传播等突出特点，
 
 介绍该平台实现方案之前，先放张效果图，好有一个直观的认识。
 
-![H5活动管理平台界面](/1.png)
+![H5活动管理平台界面](../images/1.png)
 
 该平台实现主要依赖于**本地开发工程**、**gitlab**，三者之间通过通信交互，实现的自动化部署。
 
 
-![流程图](/2.webp)
+![流程图](../images/2.png)
 
 
 **最终达到的效果就是：当本地开发分支merge到测试分支devTest或者master分支时，该平台会自动拉取最新代码，构建目标文件，然后将目标文件部署到对应的服务器目录，另外提供了上下线、版本回滚、定时上下线等常用功能。**
@@ -37,7 +37,7 @@ H5页面由于其具有发布灵活、跨平台、易于传播等突出特点，
 
 **整体架构流程图：**
 
-![H5活动管理平台架构流程图](/3.webp)
+![H5活动管理平台架构流程图](../images/3.png)
 
 
 下面对一些关键技术点进行详细介绍
@@ -48,7 +48,7 @@ H5页面由于其具有发布灵活、跨平台、易于传播等突出特点，
 
 1. 本地开发工程作为自动化构建部署的源头，需要提供构建命令行用于构建测试文件和线上文件，便于后面shell命令调用。如在`package.json`中加入如下命令：
 
-```
+```js
 "scripts": {
     "local": "cross-env NODE_ENV=local node build.js", // 本地开发命令
     "build": "cross-env NODE_ENV=product node build.js", // 构建上线文件
@@ -58,7 +58,7 @@ H5页面由于其具有发布灵活、跨平台、易于传播等突出特点，
 
 2. 提供构建配置文件`dev-config.js`，用于过滤`webpack`构建时的入口目录，只构建编译当前正在开发的活动页面，提高构建速度。
 
-```
+```js
 //dev-config.js
 module.exports = {
     devPages: ['test']   //  当前自己正在开发页面目录，不写时会编译所有活动页面
@@ -66,7 +66,7 @@ module.exports = {
 ```
 3. 提供活动页面目录信息配置`config.json`，该配置信息用于【H5活动管理平台】的展示，也就是效果图中的信息源。
 
-```
+```js
 // config.json
 {
   "pages": [
@@ -88,7 +88,7 @@ module.exports = {
 ```
 4. 构建生成的 `JS` 和 `HTML` 文件，存放在 `dist` 目录下的对应活动目录中。构建生成的目录结构如下：
 
-```
+```js
 |--dist
    |-- lion
        |-- lion_app.js
@@ -102,7 +102,7 @@ module.exports = {
 
 
 
-![工程目录结构](/4.webp)
+![工程目录结构](../images/4.png)
 
 
 ### 2. gitlab服务器
@@ -118,7 +118,7 @@ module.exports = {
 
 具体配置如下图：
 
-![webhooks 配置](/5.webp)
+![webhooks 配置](../images/5.png)
 
 我们项目是设置的merge钩子，下面只贴一下`Merge request events`请求传递的数据信息：
 
@@ -129,7 +129,7 @@ X-Gitlab-Event: Merge Request Hook
 
 **Request body:**
 
-```
+```js
 {
   "object_kind": "merge_request",
   "user": {
@@ -269,10 +269,10 @@ router.post('/merge', function (req, res, next) {
 
 拉取最新代码进行构建出目标文件，大致逻辑如下图：
 
-![目标代码](/6.webp)
+![目标代码](../images/6.png)
 
 
-```
+```js
 function init(git_ssh_url, projectName, targetBranch) {
     deferred = Q.defer();
     if (!git_ssh_url || !projectName) {
@@ -369,7 +369,7 @@ function buildTest(projectName, targetBranch) {
 
 通过修改项目配置文件，接入不同的项目，配置信息有每个项目要上传的CDN路径、构建命令、项目目录展示信息文件路径（`config.json`），如下图：
 
-```
+```js
 // 接入该平台的项目列表
 module.exports = {
     'h5-activity-cms': {
@@ -402,7 +402,7 @@ module.exports = {
 
 构建目标文件的过程中，很多生成文件、压缩、copy的异步操作，不同的merge请求，有可能操作的是同一个文件，所以需要对merge请求做队列处理。
 
-```
+```js
 class TaskQueue {
     constructor() {
         this.list = [];
@@ -454,5 +454,5 @@ module.exports = TaskQueue;
 ***
  **扫一扫 关注我的公众号【前端名狮】，更多精彩内容陪伴你！**
  
-![【前端名狮】](/7.webp)
+![【前端名狮】](../images/7.png)
 

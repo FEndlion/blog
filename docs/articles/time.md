@@ -1,6 +1,6 @@
 # 支持跨时区、兼容本地时间不准且不依赖后端接口的倒计时
 
-![](/8.webp)
+![](/8.png)
 
 ### 前言
 
@@ -177,7 +177,7 @@ xhr.onreadystatechange = function () {
 new Date(time);
 ```
 
-![](/10.webp)
+![](/10.png)
 
 所以倒计时代码就可以改写为：
 
@@ -237,6 +237,6 @@ function getNowDate(localTime, timeZone) {
 ### 关注我
 **扫一扫 关注我的公众号【前端名狮】，更多精彩内容陪伴你！**
 
-![](/7.webp)
+![](/7.png)
 
 

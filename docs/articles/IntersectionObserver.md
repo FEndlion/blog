@@ -1,5 +1,5 @@
 # 交叉观察器
-![](/20.webp)
+![](/20.png)
 
 ### IntersectionObserver 介绍
 
@@ -252,4 +252,4 @@ npm install intersection-observer --save
 ### 关注我
 **扫一扫 关注我的公众号【前端名狮】，更多精彩内容陪伴你！**
 
-![](/7.webp)
+![](/7.png)
