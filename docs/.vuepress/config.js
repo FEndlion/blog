@@ -1,5 +1,5 @@
 module.exports = {
-    base: '/',
+    base: '/blog/',
     title: "前端名狮",
     description: "欢迎关注我的公众号【前端名狮】",
     ga: "UA-121061441-1",
@@ -14,7 +14,7 @@ module.exports = {
       nav: [
         {
           text: "博客",
-          link: "/blog/"
+          link: "/articles/"
         },
         {
           text: "试题精讲",
@@ -26,7 +26,7 @@ module.exports = {
         },
       ],
       sidebar: {
-        "/blog/": [
+        "/articles/": [
           {
             title: '原创文章',
             collapsable: false,
