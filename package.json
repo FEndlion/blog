@@ -1,0 +1,25 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vuepress dev docs",
+    "build": "vuepress build docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FEndlion/blog.git"
+  },
+  "author": "FEndlion",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FEndlion/blog/issues"
+  },
+  "homepage": "https://github.com/FEndlion/blog#readme",
+  "devDependencies": {
+    "@vuepress/plugin-back-to-top": "^1.1.0",
+    "@vuepress/plugin-medium-zoom": "^1.1.0",
+    "vuepress": "^1.1.0"
+  }
+}

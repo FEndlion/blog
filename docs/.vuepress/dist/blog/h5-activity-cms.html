@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>抛弃jenkins，如何用node从零搭建自动化部署管理平台 | 前端名狮</title>
+    <meta name="description" content="欢迎关注我的公众号【前端名狮】">
+    <link rel="icon" href="/logo.jpg">
+    
+    <link rel="preload" href="/assets/css/0.styles.baa6115b.css" as="style"><link rel="preload" href="/assets/js/app.d917df69.js" as="script"><link rel="preload" href="/assets/js/2.f83f336c.js" as="script"><link rel="preload" href="/assets/js/8.69e82945.js" as="script"><link rel="prefetch" href="/assets/js/10.2161b468.js"><link rel="prefetch" href="/assets/js/11.1304499e.js"><link rel="prefetch" href="/assets/js/12.a9e2d2be.js"><link rel="prefetch" href="/assets/js/13.460dfa2e.js"><link rel="prefetch" href="/assets/js/3.a5de187a.js"><link rel="prefetch" href="/assets/js/4.3be22c48.js"><link rel="prefetch" href="/assets/js/5.69553758.js"><link rel="prefetch" href="/assets/js/6.4308b3d4.js"><link rel="prefetch" href="/assets/js/7.ab6f0539.js"><link rel="prefetch" href="/assets/js/9.b3886703.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.baa6115b.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">前端名狮</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/blog/" class="nav-link router-link-active">博客</a></div><div class="nav-item"><a href="/interview/" class="nav-link">试题精讲</a></div><div class="nav-item"><a href="/jobs/" class="nav-link">招聘信息</a></div> <a href="https://github.com/FEndlion/blog" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/blog/" class="nav-link router-link-active">博客</a></div><div class="nav-item"><a href="/interview/" class="nav-link">试题精讲</a></div><div class="nav-item"><a href="/jobs/" class="nav-link">招聘信息</a></div> <a href="https://github.com/FEndlion/blog" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>原创文章</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/blog/IntersectionObserver.html" class="sidebar-link">交叉观察器</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="抛弃jenkins，如何用node从零搭建自动化部署管理平台"><a href="#抛弃jenkins，如何用node从零搭建自动化部署管理平台" aria-hidden="true" class="header-anchor">#</a> 抛弃jenkins，如何用node从零搭建自动化部署管理平台</h1> <h2 id="一、背景"><a href="#一、背景" aria-hidden="true" class="header-anchor">#</a> 一、背景</h2> <p>H5页面由于其具有发布灵活、跨平台、易于传播等突出特点，所以H5页面是引流拉新、宣传推广的重要渠道和方式，备受各公司的青睐。</p> <p>小编的日常工作就是做各种面向用户的H5促销活动的开发，在整个开发周期中，接合我司的一些情况，我总结了H5活动页面的以下特点：</p> <ol><li>面向用户，流量大；</li> <li>各端展示方案不同，需要兼容各端（比如活动规则、展示模块，ios和android不一样）；</li> <li>需求变更频繁；</li> <li>合作方较多（需要跟各个业务线合作联调）；</li> <li>排期紧张；</li></ol> <p><strong>所以开发测试期间，部署效率就显得特别重要了。</strong></p> <p>由于我司的CDN发布平台，需要手动创建模板、粘贴代码，部署效率比较低下；并且活动页面代码分散，无法统一管理和实现工程化，所以决定实现一套自动化部署系统，目前已经投入使用半年时间了，极大地提高了我们的工作效率。<strong>我称这个自动化部署系统为【H5 活动管理平台】</strong>。</p> <h2 id="二、h5-活动管理平台自动化部署实现方案"><a href="#二、h5-活动管理平台自动化部署实现方案" aria-hidden="true" class="header-anchor">#</a> 二、H5 活动管理平台自动化部署实现方案</h2> <p>介绍该平台实现方案之前，先放张效果图，好有一个直观的认识。</p> <p><img src="https://mmbiz.qpic.cn/mmbiz_png/2K5IuDFDWm80vfmibDUibOO4X3HuZCRvcnuibLn9UIDh9qN1bk8HP4TsBfQe7J3mmECagv1WoJxhIvdutL1qg6Vsw/0?wx_fmt=png" alt="H5活动管理平台界面"></p> <p>该平台实现主要依赖于<strong>本地开发工程</strong>、<strong>gitlab</strong>，三者之间通过通信交互，实现的自动化部署。</p> <p><img src="https://mmbiz.qpic.cn/mmbiz_png/2K5IuDFDWm80vfmibDUibOO4X3HuZCRvcn6P2hw8tia49vfN9GhEdZlicmGiaDnPIcL5BqfoDriaQscBSib46LKrgIt2g/0?wx_fmt=png" alt="image"></p> <p><strong>最终达到的效果就是：当本地开发分支merge到测试分支devTest或者master分支时，该平台会自动拉取最新代码，构建目标文件，然后将目标文件部署到对应的服务器目录，另外提供了上下线、版本回滚、定时上下线等常用功能。</strong></p> <p><strong>整体架构流程图：</strong></p> <p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/2K5IuDFDWm80vfmibDUibOO4X3HuZCRvcn3ofFOTXJic6GEcAhoPpGQ4oHRkvh0icAw9icGys2iay5vjG6J2FnuRKkIw/0?wx_fmt=jpeg" alt="H5活动管理平台架构流程图"></p> <p>下面对一些关键技术点进行详细介绍</p> <h3 id="_1-本地开发工程"><a href="#_1-本地开发工程" aria-hidden="true" class="header-anchor">#</a> 1. 本地开发工程</h3> <p>我们的本地开发工程，是使用<code>node + webpack + babel</code>等相关技术搭建的多页面开发工程，不同的活动位于不同的目录。因为要做自动化构建部署处理，跟【H5活动管理平台】交互，所以有以下要点需要注意（可根据自己项目情况，自由调整方案）。</p> <ol><li>本地开发工程作为自动化构建部署的源头，需要提供构建命令行用于构建测试文件和线上文件，便于后面shell命令调用。如在<code>package.json</code>中加入如下命令：</li></ol> <div class="language- line-numbers-mode"><pre class="language-text"><code>&quot;scripts&quot;: {
+    &quot;local&quot;: &quot;cross-env NODE_ENV=local node build.js&quot;, // 本地开发命令
+    &quot;build&quot;: &quot;cross-env NODE_ENV=product node build.js&quot;, // 构建上线文件
+    &quot;test&quot;: &quot;cross-env NODE_ENV=test node build.js&quot; // 构建测试文件
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><ol start="2"><li>提供构建配置文件<code>dev-config.js</code>，用于过滤<code>webpack</code>构建时的入口目录，只构建编译当前正在开发的活动页面，提高构建速度。</li></ol> <div class="language- line-numbers-mode"><pre class="language-text"><code>//dev-config.js
+module.exports = {
+    devPages: ['test']   //  当前自己正在开发页面目录，不写时会编译所有活动页面
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><ol start="3"><li>提供活动页面目录信息配置<code>config.json</code>，该配置信息用于【H5活动管理平台】的展示，也就是效果图中的信息源。</li></ol> <div class="language- line-numbers-mode"><pre class="language-text"><code>// config.json
+{
+  &quot;pages&quot;: [
+        {
+            &quot;folder&quot;: &quot;lion&quot;,
+            &quot;desc&quot;: &quot;前端名狮&quot;,
+            &quot;author&quot;: &quot;诀九&quot;,
+            &quot;user&quot;: &quot;juejiu&quot;
+        },
+        {
+            &quot;folder&quot;: &quot;test&quot;,
+            &quot;desc&quot;: &quot;活动测试页面&quot;,
+            &quot;author&quot;: &quot;诀九&quot;,
+            &quot;user&quot;: &quot;juejiu&quot;
+        }
+    ]
+}
+    
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br></div></div><ol start="4"><li>构建生成的 <code>JS</code> 和 <code>HTML</code> 文件，存放在 <code>dist</code> 目录下的对应活动目录中。构建生成的目录结构如下：</li></ol> <div class="language- line-numbers-mode"><pre class="language-text"><code>|--dist
+   |-- lion
+       |-- lion_app.js
+       |-- index.html
+   |--test
+       |-- test_app.js
+       |-- index.html
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><ol start="5"><li>提测时，将开发分支merge到devTest分支，上线时，将开发分支merge到master分支。</li></ol> <p><img src="https://note.youdao.com/yws/public/resource/b301bde589000bc5a9a49d0da467d0ed/xmlnote/B1772927CDF247849E6D385AAD8D473D/3389" alt="工程目录结构"></p> <h3 id="_2-gitlab服务器"><a href="#_2-gitlab服务器" aria-hidden="true" class="header-anchor">#</a> 2. gitlab服务器</h3> <p><code>Gitlab</code>作为企业代码版本管理工具，提供了<code>Webhook</code>的功能配置，<code>Webhook</code>顾名思义，其实就是一钩子。当我们在<code>Gitlab</code>上做出某些特定操作时，可以触发钩子，去进行一些我们事先设定好的脚本，以达到某些特定功能（例如--前端项目自动发布）。</p> <p>实际上可以把它理解为回调，或者委托，或者事件通知，归根揭底它就是一个消息通知机制。<strong>当gitlab触发某个事件时，它会向你的所配置的http服务发送Post请求</strong>。</p> <p><strong>注意：</strong></p> <ol><li>URL处填写的是【H5活动管理平台】部署的服务器IP;</li> <li>IP后面跟的<code>merge</code>是该平台提供的一个接口，用于触发钩子后，gitlab服务器向这个接口发送Post请求；</li> <li><code>Secret Token</code>处填写的是一个token，主要用于merge接口请求做安全校验，可以随便设置。</li></ol> <p>具体配置如下图：</p> <p><img src="https://mmbiz.qpic.cn/mmbiz_png/2K5IuDFDWm80vfmibDUibOO4X3HuZCRvcnvLiaItib90miaicSouOkSQNUwwLExIz8Sgqficaz3DbThmurZdElDPcu1gA/0?wx_fmt=png" alt="webhooks 配置"></p> <p>我们项目是设置的merge钩子，下面只贴一下<code>Merge request events</code>请求传递的数据信息：</p> <p><strong>Request header:</strong></p> <div class="language- line-numbers-mode"><pre class="language-text"><code>X-Gitlab-Event: Merge Request Hook
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p><strong>Request body:</strong></p> <div class="language- line-numbers-mode"><pre class="language-text"><code>{
+  &quot;object_kind&quot;: &quot;merge_request&quot;,
+  &quot;user&quot;: {
+    &quot;name&quot;: &quot;Administrator&quot;,
+    &quot;username&quot;: &quot;root&quot;,
+    &quot;avatar_url&quot;: &quot;http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon&quot;
+  },
+  &quot;object_attributes&quot;: {
+    &quot;id&quot;: 99,
+    &quot;target_branch&quot;: &quot;master&quot;,
+    &quot;source_branch&quot;: &quot;ms-viewport&quot;,
+    &quot;source_project_id&quot;: 14,
+    &quot;author_id&quot;: 51,
+    &quot;assignee_id&quot;: 6,
+    &quot;title&quot;: &quot;MS-Viewport&quot;,
+    &quot;created_at&quot;: &quot;2013-12-03T17:23:34Z&quot;,
+    &quot;updated_at&quot;: &quot;2013-12-03T17:23:34Z&quot;,
+    &quot;st_commits&quot;: null,
+    &quot;st_diffs&quot;: null,
+    &quot;milestone_id&quot;: null,
+    &quot;state&quot;: &quot;opened&quot;,
+    &quot;merge_status&quot;: &quot;unchecked&quot;,
+    &quot;target_project_id&quot;: 14,
+    &quot;iid&quot;: 1,
+    &quot;description&quot;: &quot;&quot;,
+    &quot;source&quot;:{
+      &quot;name&quot;:&quot;Awesome Project&quot;,
+      &quot;description&quot;:&quot;Aut reprehenderit ut est.&quot;,
+      &quot;web_url&quot;:&quot;http://example.com/awesome_space/awesome_project&quot;,
+      &quot;avatar_url&quot;:null,
+      &quot;git_ssh_url&quot;:&quot;git@example.com:awesome_space/awesome_project.git&quot;,
+      &quot;git_http_url&quot;:&quot;http://example.com/awesome_space/awesome_project.git&quot;,
+      &quot;namespace&quot;:&quot;Awesome Space&quot;,
+      &quot;visibility_level&quot;:20,
+      &quot;path_with_namespace&quot;:&quot;awesome_space/awesome_project&quot;,
+      &quot;default_branch&quot;:&quot;master&quot;,
+      &quot;homepage&quot;:&quot;http://example.com/awesome_space/awesome_project&quot;,
+      &quot;url&quot;:&quot;http://example.com/awesome_space/awesome_project.git&quot;,
+      &quot;ssh_url&quot;:&quot;git@example.com:awesome_space/awesome_project.git&quot;,
+      &quot;http_url&quot;:&quot;http://example.com/awesome_space/awesome_project.git&quot;
+    },
+    &quot;target&quot;: {
+      &quot;name&quot;:&quot;Awesome Project&quot;,
+      &quot;description&quot;:&quot;Aut reprehenderit ut est.&quot;,
+      &quot;web_url&quot;:&quot;http://example.com/awesome_space/awesome_project&quot;,
+      &quot;avatar_url&quot;:null,
+      &quot;git_ssh_url&quot;:&quot;git@example.com:awesome_space/awesome_project.git&quot;,
+      &quot;git_http_url&quot;:&quot;http://example.com/awesome_space/awesome_project.git&quot;,
+      &quot;namespace&quot;:&quot;Awesome Space&quot;,
+      &quot;visibility_level&quot;:20,
+      &quot;path_with_namespace&quot;:&quot;awesome_space/awesome_project&quot;,
+      &quot;default_branch&quot;:&quot;master&quot;,
+      &quot;homepage&quot;:&quot;http://example.com/awesome_space/awesome_project&quot;,
+      &quot;url&quot;:&quot;http://example.com/awesome_space/awesome_project.git&quot;,
+      &quot;ssh_url&quot;:&quot;git@example.com:awesome_space/awesome_project.git&quot;,
+      &quot;http_url&quot;:&quot;http://example.com/awesome_space/awesome_project.git&quot;
+    },
+    &quot;last_commit&quot;: {
+      &quot;id&quot;: &quot;da1560886d4f094c3e6c9ef40349f7d38b5d27d7&quot;,
+      &quot;message&quot;: &quot;fixed readme&quot;,
+      &quot;timestamp&quot;: &quot;2012-01-03T23:36:29+02:00&quot;,
+      &quot;url&quot;: &quot;http://example.com/awesome_space/awesome_project/commits/da1560886d4f094c3e6c9ef40349f7d38b5d27d7&quot;,
+      &quot;author&quot;: {
+        &quot;name&quot;: &quot;GitLab dev user&quot;,
+        &quot;email&quot;: &quot;gitlabdev@dv6700.(none)&quot;
+      }
+    },
+    &quot;work_in_progress&quot;: false,
+    &quot;url&quot;: &quot;http://example.com/diaspora/merge_requests/1&quot;,
+    &quot;action&quot;: &quot;open&quot;,
+    &quot;assignee&quot;: {
+      &quot;name&quot;: &quot;User1&quot;,
+      &quot;username&quot;: &quot;user1&quot;,
+      &quot;avatar_url&quot;: &quot;http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon&quot;
+    }
+  }
+}
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br><span class="line-number">72</span><br><span class="line-number">73</span><br><span class="line-number">74</span><br><span class="line-number">75</span><br><span class="line-number">76</span><br><span class="line-number">77</span><br><span class="line-number">78</span><br></div></div><h3 id="_3-h5-活动管理平台"><a href="#_3-h5-活动管理平台" aria-hidden="true" class="header-anchor">#</a> 3. H5 活动管理平台</h3> <p>当开发者merge代码到GitLab服务器，会触发merge事件，GitLab会发送一个POST请求连带数据（数据格式）给webhooks指定的URL，该平台接收到URL请求后，就涉及如下关键技术点：</p> <p><strong>1. 根据post请求头信息和和body数据，我们能得到如下信息：</strong></p> <p>merge的目标分支： <code>req.body.object_attributes.target_branch</code>；</p> <p>安全校验token：<code>req.headers['x-gitlab-token']</code>；</p> <p>gitlab工程仓库地址：<code>req.body.project.git_ssh_url</code></p> <p>触发的钩子行为类型：<code>req.body.object_attributes.action</code></p> <div class="language- line-numbers-mode"><pre class="language-text"><code>// gitlab触发merge请求
+router.post('/merge', function (req, res, next) {
+    let git_ssh_url = req.body.project.git_ssh_url;
+    let name = req.body.project.name;
+    // 上线merge分支master
+    if (req.headers['x-gitlab-token'] == 'mergeRequest' &amp;&amp; req.body.object_attributes.target_branch == 'master' &amp;&amp; req.body.object_attributes.action == 'merge') {
+        if (config[name] &amp;&amp; config[name].git_ssh_url == git_ssh_url) {
+            mergeTaskQueue.addTask(function () {
+                getCode.init(git_ssh_url, name, 'master').then(function (data) {
+                    console.log(data);
+                    mergeTaskQueue.run();
+                }).catch(function (error) {
+                    console.log(error);
+                    mergeTaskQueue.run();
+                })
+            }.bind(null, git_ssh_url, name));
+        }
+        res.end('receive request');
+        // 测试merge分支dev
+    } else if (req.headers['x-gitlab-token'] == 'mergeRequest' &amp;&amp; req.body.object_attributes.target_branch == config[name].testEnv.targetBranch &amp;&amp; req.body.object_attributes.action == 'merge') {
+        if (config[name] &amp;&amp; config[name].git_ssh_url == git_ssh_url) {
+            mergeTaskQueue.addTask(function () {
+                getCode.init(git_ssh_url, name, req.body.object_attributes.target_branch).then(function (data) {
+                    console.log(data);
+                    mergeTaskQueue.run();
+                }).catch(function (error) {
+                    console.log(error);
+                    mergeTaskQueue.run();
+                })
+            }.bind(null, git_ssh_url, name));
+        }
+        res.end('receive request');
+    } else {
+        return res.end('receive request');
+    }
+})
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br></div></div><p><strong>2. 执行脚本</strong></p> <p>脚本这块没有使用shell脚本，而是使用了node版本的shell.js库，这个库可以让我们控制执行逻辑，更友好的处理错误信息，帮助平台有更友好的信息展示。</p> <p>拉取最新代码进行构建出目标文件，大致逻辑如下图：</p> <p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/2K5IuDFDWm80vfmibDUibOO4X3HuZCRvcnd0j1QqTlEcjb7U60YOvsiasTgosXQzgZpibSWiaxPquHwqLGzbtgCZcLg/0?wx_fmt=jpeg" alt="目标代码"></p> <div class="language- line-numbers-mode"><pre class="language-text"><code>function init(git_ssh_url, projectName, targetBranch) {
+    deferred = Q.defer();
+    if (!git_ssh_url || !projectName) {
+        return deferred.reject('项目地址或者项目名称为空');
+    }
+    repository = git_ssh_url;
+    repositoryName = projectName;
+    clonePath = path.join(__dirname, '../projects/' + projectName);
+
+    shell.exec('exit 0');
+    if (shell.test('-e', clonePath)) {
+        shell.cd(clonePath);
+        let currentBranch = shell.exec('git symbolic-ref --short -q HEAD', {async: false, silent: true}).stdout;
+        if(currentBranch != targetBranch) {
+            let outInfo = shell.exec('git branch', {async: false, silent: true}).stdout;
+            let gitcmd = outInfo.indexOf(targetBranch) &gt;= 0 ? ('git checkout ' + targetBranch) : ('git checkout -b ' + targetBranch + ' origin/' + targetBranch);
+            shell.exec('git pull &amp;&amp; ' + gitcmd, {async: false, silent: true});
+        }
+        shell.exec('git pull', {async: false, silent: true}, function (code, stdout, stderr) {
+            if (code != 0) {
+                console.log(stderr);
+                return deferred.reject('git pull error');
+            }
+            console.log(stdout);
+            console.log('git pull run success');
+            return buildTest(projectName, targetBranch);
+        })
+    } else {
+        if (!fs.existsSync(projects_path)) {
+            fs.mkdirSync(projects_path);
+        }
+        shell.cd(projects_path);
+        shell.exec('git clone ' + repository, function (code, stdout, stderr) {
+            if (code != 0) {
+                console.log(stderr);
+                return deferred.reject('git clone error');
+            }
+            console.log('git clone success');
+            shell.cd(clonePath);
+            let outInfo = shell.exec('git branch', {async: false, silent: true}).stdout;
+            let gitcmd = outInfo.indexOf(targetBranch) &gt;= 0 ? ('git checkout ' + targetBranch) : ('git checkout -b ' + targetBranch + ' origin/' + targetBranch);
+            shell.exec(gitcmd, {async: false, silent: true});
+            return buildTest(projectName, targetBranch);
+        })
+    }
+    return deferred.promise;
+}
+
+// 构建项目
+function buildTest(projectName, targetBranch) {
+    shell.cd(clonePath);
+    shell.exec('npm config set registry https://registry.npm.taobao.org &amp;&amp; npm install', {async: true, silent: true}, function (code, stdout, stderr) {
+        if (code != 0) {
+            console.log(stderr);
+            return deferred.reject('npm install error');
+        }
+        console.log('npm install success');
+        shell.rm('-rf', path.join(clonePath, 'dist'));
+        let testCommand = config[repositoryName].commands.test || 'npm run test'; //构建测试文件命令行
+        shell.exec(testCommand, {async: true, silent: true}, function (code, stdout, stderr) {
+            if (code != 0) {
+                console.log(stderr);
+                return deferred.reject('npm run test fail');
+            }
+            console.log('npm run test success');
+            copyPage(repositoryName, 'test'); // copy到测试目录
+            if(targetBranch != 'master') {
+                shell.exec('exit 0');
+                deferred.resolve('build success and finish');
+                return; // 提测时只构建测试文件
+            }
+            // 构建最终上线文件
+            shell.rm('-rf', path.join(clonePath, 'dist'));
+            let buildCommand = config[repositoryName].commands.build || 'npm run build'; //构建预上线文件命令行
+            shell.exec(buildCommand, {async: true, silent: true}, function (code, stdout, stderr) {
+                if (code != 0) {
+                    console.log(stderr);
+                    return deferred.reject('npm run build fail');
+                }
+                console.log('npm run build success');
+                copyPage(repositoryName, 'online'); //copy到上线正式目录
+                
+                // 每次合并master构建后，都切换到测试分支，便于平台读取config.json信息（测试分支是最新的）
+                shell.exec('git checkout ' + config[projectName].testEnv.targetBranch, {async: false, silent: false}); 
+                shell.exec('exit 0');
+                deferred.resolve('build success and finish');
+            })
+        })
+    })
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br><span class="line-number">72</span><br><span class="line-number">73</span><br><span class="line-number">74</span><br><span class="line-number">75</span><br><span class="line-number">76</span><br><span class="line-number">77</span><br><span class="line-number">78</span><br><span class="line-number">79</span><br><span class="line-number">80</span><br><span class="line-number">81</span><br><span class="line-number">82</span><br><span class="line-number">83</span><br><span class="line-number">84</span><br><span class="line-number">85</span><br><span class="line-number">86</span><br><span class="line-number">87</span><br><span class="line-number">88</span><br><span class="line-number">89</span><br><span class="line-number">90</span><br></div></div><p><strong>3. 动态扩展项目</strong></p> <p>通过修改项目配置文件，接入不同的项目，配置信息有每个项目要上传的CDN路径、构建命令、项目目录展示信息文件路径（<code>config.json</code>），如下图：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>// 接入该平台的项目列表
+module.exports = {
+    'h5-activity-cms': {
+        git_ssh_url: 'git@example.com:awesome_space/awesome_project.git',
+        desc: '前端名狮项目',
+        tabContent: '前端名狮', //页面中tab展示文字
+        onlineParam: { //上传cdn的参数，根据自己项目设置
+            html: {
+                domain: '',
+                path: ''
+            },
+            js: {
+                domain: '',
+                path: ''
+            }
+        },
+        commands: { //构建脚本命令行
+            test: 'npm run test',
+            build: 'npm run build'
+        },
+       
+        configFile: 'config.json', // 活动页面列表信息
+    }
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br></div></div><p><strong>4. 队列处理</strong></p> <p>构建目标文件的过程中，很多生成文件、压缩、copy的异步操作，不同的merge请求，有可能操作的是同一个文件，所以需要对merge请求做队列处理。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>class TaskQueue {
+    constructor() {
+        this.list = [];
+        this.isRunning = false;
+    }
+    addTask(task) {
+        this.list.push(task);
+        if(this.isRunning) {
+            return;
+        }
+        this.start();
+    }
+    shift() {
+        return this.list.length &gt; 0 ? this.list.shift() : null;
+    }
+    run() {
+        let task = this.shift();
+        if(!task) {
+            this.isRunning = false;
+            return;
+        }
+        task();
+    }
+    start() {
+        this.isRunning = true;
+        this.run();
+    }
+}
+module.exports = TaskQueue;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br></div></div><p><strong>5. CDN 发布</strong></p> <p>这个需要后端同学提供一个服务接口，用于推送文件到CDN上或者服务器上。我们这边是借助于一个服务端接口，我们通过node上传到他们的服务器，接口方会定时推送文件到CDN，具体每个人的情况处理吧哈。</p> <hr> <h2 id="三、总结"><a href="#三、总结" aria-hidden="true" class="header-anchor">#</a> 三、总结</h2> <p>该平台使用node实现了一个微型的、类似jenkins功能的部署管理平台，具有如下突出的优点：</p> <ol><li><p>该平台打通了本地开发环境和测试环境部署，实现了测试部署自动化，节省了人工上传粘贴代码的时间，大大地提高了工作效率；</p></li> <li><p>基于项目工程划分的类别，便于开发者高效率的查找页面；</p></li> <li><p>支持动态扩展，可以通过添加配置文件，接入其他gitlab项目；</p></li> <li><p>可以根据需要定制化平台操作页面，比使用jenkins更灵活，更轻便；</p></li></ol> <hr> <p><strong>扫一扫 关注我的公众号【前端名狮】，更多精彩内容陪伴你！</strong></p> <p><img src="https://upload-images.jianshu.io/upload_images/17728790-3301bc6ba92a3f53?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="【前端名狮】"></p></div> <footer class="page-edit"><div class="edit-link"><a href="https://github.com/FEndlion/blog/edit/master/docs/blog/h5-activity-cms.md" target="_blank" rel="noopener noreferrer">本文源码地址</a> <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></div> <!----></footer> <!----> </main></div><div class="global-ui"><!----></div></div>
+    <script src="/assets/js/app.d917df69.js" defer></script><script src="/assets/js/2.f83f336c.js" defer></script><script src="/assets/js/8.69e82945.js" defer></script>
+  </body>
+</html>
