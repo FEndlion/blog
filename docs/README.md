@@ -2,7 +2,7 @@
 home: true
 heroImage: /logo.jpg
 actionText: 开始阅读 →
-actionLink: /blog/
+actionLink: /articles/
 features:
 - title: 精选文章
   details: 精选热门文章，以及业务实践中的技术总结，作为记录成长的日记本。
