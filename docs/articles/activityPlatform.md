@@ -1,3 +1,5 @@
+# 抛弃jenkins，如何用node从零搭建自动化部署管理平台
+
 ## 一、背景
 
 H5页面由于其具有发布灵活、跨平台、易于传播等突出特点，所以H5页面是引流拉新、宣传推广的重要渠道和方式，备受各公司的青睐。
@@ -22,12 +24,12 @@ H5页面由于其具有发布灵活、跨平台、易于传播等突出特点，
 
 介绍该平台实现方案之前，先放张效果图，好有一个直观的认识。
 
-![H5活动管理平台界面](https://mmbiz.qpic.cn/mmbiz_png/2K5IuDFDWm80vfmibDUibOO4X3HuZCRvcnuibLn9UIDh9qN1bk8HP4TsBfQe7J3mmECagv1WoJxhIvdutL1qg6Vsw/0?wx_fmt=png)
+![H5活动管理平台界面](/1.png)
 
 该平台实现主要依赖于**本地开发工程**、**gitlab**，三者之间通过通信交互，实现的自动化部署。
 
 
-![image](https://mmbiz.qpic.cn/mmbiz_png/2K5IuDFDWm80vfmibDUibOO4X3HuZCRvcn6P2hw8tia49vfN9GhEdZlicmGiaDnPIcL5BqfoDriaQscBSib46LKrgIt2g/0?wx_fmt=png)
+![流程图](/2.webp)
 
 
 **最终达到的效果就是：当本地开发分支merge到测试分支devTest或者master分支时，该平台会自动拉取最新代码，构建目标文件，然后将目标文件部署到对应的服务器目录，另外提供了上下线、版本回滚、定时上下线等常用功能。**
@@ -35,7 +37,7 @@ H5页面由于其具有发布灵活、跨平台、易于传播等突出特点，
 
 **整体架构流程图：**
 
-![H5活动管理平台架构流程图](https://mmbiz.qpic.cn/mmbiz_jpg/2K5IuDFDWm80vfmibDUibOO4X3HuZCRvcn3ofFOTXJic6GEcAhoPpGQ4oHRkvh0icAw9icGys2iay5vjG6J2FnuRKkIw/0?wx_fmt=jpeg)
+![H5活动管理平台架构流程图](/3.webp)
 
 
 下面对一些关键技术点进行详细介绍
@@ -100,7 +102,7 @@ module.exports = {
 
 
 
-![工程目录结构](https://note.youdao.com/yws/public/resource/b301bde589000bc5a9a49d0da467d0ed/xmlnote/B1772927CDF247849E6D385AAD8D473D/3389)
+![工程目录结构](/4.webp)
 
 
 ### 2. gitlab服务器
@@ -116,7 +118,7 @@ module.exports = {
 
 具体配置如下图：
 
-![webhooks 配置](https://mmbiz.qpic.cn/mmbiz_png/2K5IuDFDWm80vfmibDUibOO4X3HuZCRvcnvLiaItib90miaicSouOkSQNUwwLExIz8Sgqficaz3DbThmurZdElDPcu1gA/0?wx_fmt=png)
+![webhooks 配置](/5.webp)
 
 我们项目是设置的merge钩子，下面只贴一下`Merge request events`请求传递的数据信息：
 
@@ -267,7 +269,7 @@ router.post('/merge', function (req, res, next) {
 
 拉取最新代码进行构建出目标文件，大致逻辑如下图：
 
-![目标代码](https://mmbiz.qpic.cn/mmbiz_jpg/2K5IuDFDWm80vfmibDUibOO4X3HuZCRvcnd0j1QqTlEcjb7U60YOvsiasTgosXQzgZpibSWiaxPquHwqLGzbtgCZcLg/0?wx_fmt=jpeg)
+![目标代码](/6.webp)
 
 
 ```
@@ -452,5 +454,5 @@ module.exports = TaskQueue;
 ***
  **扫一扫 关注我的公众号【前端名狮】，更多精彩内容陪伴你！**
  
-![【前端名狮】](https://upload-images.jianshu.io/upload_images/17728790-3301bc6ba92a3f53?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![【前端名狮】](/7.webp)
 

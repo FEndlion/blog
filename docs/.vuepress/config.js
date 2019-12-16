@@ -31,7 +31,11 @@ module.exports = {
             title: '原创文章',
             collapsable: false,
             children: [
-              "IntersectionObserver"
+              "activityPlatform",
+              "commonPop",
+              "time",
+              "IntersectionObserver",
+              "browser"
             ]
           }
         ],
@@ -40,7 +44,17 @@ module.exports = {
             title: '面试题',
             collapsable: false,
             children: [
-              "question/01"
+              "question/01",
+              "question/02",
+              "question/03",
+              "question/04",
+              "question/05",
+              "question/06",
+              "question/07",
+              "question/08",
+              "question/09",
+              "question/10",
+              "question/11"
             ]
           }
         ],

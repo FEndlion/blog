@@ -1,4 +1,6 @@
-![](https://mmbiz.qpic.cn/mmbiz_jpg/2K5IuDFDWm8jgOdox6VzXuALCaEa2k8hEyuyEokZrAu1OxpnyXvT4wvGnuy1XIRAQQnvbhtncOSoGQsPOdm3Mg/0?wx_fmt=jpeg)
+# 支持跨时区、兼容本地时间不准且不依赖后端接口的倒计时
+
+![](/8.webp)
 
 ### 前言
 
@@ -148,7 +150,7 @@ HEAD请求常常被忽略，但是能提供很多有用的信息，特别是在�
 每个页面都会有html文档，这个也属于get请求，如下图所示：
 
 
-![](https://mmbiz.qpic.cn/mmbiz_png/2K5IuDFDWm8jgOdox6VzXuALCaEa2k8hib2uklibbj1xQpchDuJoLj6lousGSVm31XdR5HiaDBLMFAwcnuwtFcJxQ/0?wx_fmt=png)
+![](/9.jpg)
 
 我们可以利用Head请求，拿到这个date头信息：
 
@@ -175,7 +177,7 @@ xhr.onreadystatechange = function () {
 new Date(time);
 ```
 
-![](https://mmbiz.qpic.cn/mmbiz_png/2K5IuDFDWm8jgOdox6VzXuALCaEa2k8hf9JNzZbQ2vp0ibXXRRhdKGUWicrPbAoJsib1ibLticOkC3bXLjpiaUj4CT9A/0?wx_fmt=png)
+![](/10.webp)
 
 所以倒计时代码就可以改写为：
 
@@ -235,6 +237,6 @@ function getNowDate(localTime, timeZone) {
 ### 关注我
 **扫一扫 关注我的公众号【前端名狮】，更多精彩内容陪伴你！**
 
-![](https://user-gold-cdn.xitu.io/2019/9/8/16d105793144e24a?w=1080&h=309&f=webp&s=17610)
+![](/7.webp)
 
 

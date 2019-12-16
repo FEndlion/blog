@@ -1,5 +1,5 @@
 # 交叉观察器
-![](https://mmbiz.qpic.cn/mmbiz_jpg/2K5IuDFDWm8Rz6miapjTpqibtxh96XOyS44b3CiagO3njGeXY6je6rS8SDnL2icHbrAuXPqN69I5URAGJ0Jq4w6WBQ/0?wx_fmt=jpeg)
+![](/20.webp)
 
 ### IntersectionObserver 介绍
 
@@ -11,7 +11,7 @@
 
 网页开发时，常常需要判断某个元素是否进入了"视口"（viewport），即用户能不能看到它，然后执行相应的逻辑。
 
-![](https://mmbiz.qpic.cn/mmbiz_gif/2K5IuDFDWm8Rz6miapjTpqibtxh96XOyS4QYicLzDBGIA8Y5CNlZjkuIxL6rIomv0PxGddQWQOFwJIIAJzH83TwpA/0?wx_fmt=gif)
+![](/21.gif)
 
 常见的方法是监听`scroll`事件，调用元素的`getBoundingClientRect`方法，得到它对应于视口左上角的坐标，再判断是否在视口之内。这种方法的缺点是，由于`scroll`事件密集发生，计算量很大，容易造成性能问题。
 
@@ -19,7 +19,7 @@
 
 **用法：**
 
-```
+```js
 let io = new IntersectionObserver(callback, option);
 
 // 开始观察
@@ -38,7 +38,7 @@ io.disconnect();
 
 
 
-```
+```js
 var io = new IntersectionObserver(
   entries => {
     console.log(entries);
@@ -80,7 +80,7 @@ var io = new IntersectionObserver(
 
 threshold属性决定了什么时候触发回调函数。它是一个数组，每个成员都是一个门槛值，默认为[0]，即交叉比例（intersectionRatio）达到0时触发回调函数。
 
-```
+```js
 new IntersectionObserver(
   entries => {/* ... */}, 
   {
@@ -96,7 +96,7 @@ new IntersectionObserver(
 
 `rootMargin`属性用来扩展或缩小`rootBounds`这个矩形的大小，从而影响`intersectionRect`交叉区域的大小。它使用`CSS`的定义方法，比如`10px 20px 30px 40px`，表示 `top、right、bottom` 和 `left` 四个方向的值。
 
-```
+```js
 var opts = { 
   root: document.querySelector('.container'),
   rootMargin: "500px 0px" 
@@ -120,11 +120,11 @@ var observer = new IntersectionObserver(
 
 效果如下图：
 
-![](https://mmbiz.qpic.cn/mmbiz_gif/2K5IuDFDWm8Rz6miapjTpqibtxh96XOyS49HeiboqEiblfDlSVbswib0WkCvHEiahmZbXwj15ggy3GxmiacWibibWf8G5zA/0?wx_fmt=gif)
+![](/22.gif)
 
 具体实现代码如下：
 
-```
+```js
 // index.html
 
 <div class="default-labelSwitch" id="hotList">
@@ -154,7 +154,7 @@ var observer = new IntersectionObserver(
 
 ```
 
-```
+```js
 // 监听页面模块cashiermodule、seckillcont、powervalue是否进入可视区域
 
 require('intersection-observer');
@@ -181,11 +181,11 @@ blocks.forEach(item => {
 
 ### 2. 统计页面模块曝光量
 
-![](https://mmbiz.qpic.cn/mmbiz_gif/2K5IuDFDWm8Rz6miapjTpqibtxh96XOyS4JbHKlibR9bvsNMiaqEw6RdVibp5z0a5tOAl76QCsYiaeoaIwrNfkdJX21A/0?wx_fmt=gif)
+![](/23.gif)
 
 具体代码如下：
 
-```
+```js
 // index.html
 
 <div block="moduleA">
@@ -204,7 +204,7 @@ blocks.forEach(item => {
 </div>
 ```
 
-```
+```js
 // 统计模块的曝光量
 
 require('intersection-observer');
@@ -239,7 +239,7 @@ export default block;
 
 1. 由于`IntersectionObserver`存在兼容性问题，所以需要引入补丁文件
 
-```
+```js
 npm install intersection-observer --save
 ```
 
@@ -252,4 +252,4 @@ npm install intersection-observer --save
 ### 关注我
 **扫一扫 关注我的公众号【前端名狮】，更多精彩内容陪伴你！**
 
-![](https://user-gold-cdn.xitu.io/2019/9/8/16d105793144e24a?w=1080&h=309&f=webp&s=17610)
+![](/7.webp)

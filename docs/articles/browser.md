@@ -1,5 +1,7 @@
 
-![](https://user-gold-cdn.xitu.io/2019/9/8/16d105793144e24a?w=1080&h=309&f=webp&s=17610)
+# node实例推导浏览器的渲染机制
+
+![](/7.webp)
 
 ### 前言
 
@@ -10,7 +12,7 @@
 
 动手实践之前，先了解下浏览器的渲染机制的一些基本知识，如下图所示：
 
-![](https://mmbiz.qpic.cn/mmbiz_png/2K5IuDFDWmicicagsOXODyxzIp66NicFibxP8ZqibrCndq4ejETSKuvXlenCOMkpxawEOOVk77xhqUcmUvZPicQw8dfQ/0?wx_fmt=png)
+![](/31.webp)
 
 > DOM：Document Object Model，浏览器将HTML解析成树形的数据结构，简称DOM。
 > 
@@ -22,7 +24,7 @@
 
 为了方便观察静态资源加载情况和渲染细节，用node搭建一个静态服务器，代码如下：
 
-```
+```js
 const http = require('http');
 const fs = require('fs');
 
@@ -75,7 +77,7 @@ server.listen(port, hostname, () => {
 
 **index.html 文件内容**
 
-```
+```js
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -96,7 +98,7 @@ server.listen(port, hostname, () => {
 ```
 刷新页面看下Timeline，如下图所示：
 
-![](https://mmbiz.qpic.cn/mmbiz_gif/2K5IuDFDWmibCibQ012ou7jKTYNnibTehvy3fzdwzp7LuldKADibomNbREicKibrjZeXa6LFibLURc8EmSsibmp8xrNsug/0?wx_fmt=gif)
+![](/25.gif)
 
 从上面的动画中我们能得到如下几点：
 
@@ -106,7 +108,7 @@ server.listen(port, hostname, () => {
 
 下面修改一下html内容
 
-```
+```js
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -131,7 +133,7 @@ server.listen(port, hostname, () => {
 ```
 刷新页面，会得到如下TimeLine图片：
 
-![](https://mmbiz.qpic.cn/mmbiz_png/2K5IuDFDWmibCibQ012ou7jKTYNnibTehvyQzqIuUSvNVUzYZvCj3vSxKuvmMbmDA2MouMV5kNrdsyCn0iaPwA8ZHQ/0?wx_fmt=png)
+![](/32.webp)
 
 从图中我们可以得知：
 
@@ -141,7 +143,7 @@ server.listen(port, hostname, () => {
 
 **2. 验证问题二：JS 对 HTML 的解析和渲染方面的影响**
 
-```
+```js
 // index.html 文件
 
 <!DOCTYPE html>
@@ -166,7 +168,7 @@ server.listen(port, hostname, () => {
 
 刷新页面，执行过程如下图动画所示：
 
-![](https://mmbiz.qpic.cn/mmbiz_gif/2K5IuDFDWmicicagsOXODyxzIp66NicFibxPBmicPBvBIrBaJlrJtXQAcWwokwicr0J0j9PvhbkN8xEsXpgFFibhQ3Ysg/0?wx_fmt=gif)
+![](/27.gif)
 
 从执行过程中我们发现，由于`a.js`的延迟返回，`a.js`没有下载完成，Dom树解析构建过程被阻塞停止，但`a.js`前面解析出来的html标签被渲染展示出来了。当`a.js`下载完成后，继续解析后面的标签并渲染展示。当然，浏览器不是解析一个标签就绘制显示一次，当遇到阻塞或者比较耗时的操作的时候才会先绘制一部分解析好的。
 
@@ -176,7 +178,7 @@ server.listen(port, hostname, () => {
 
 修改服务器node代码，将`style.css`延迟10s再返回
 
-```
+```js
 // style.css
 
 p:nth-child(1) {
@@ -193,7 +195,7 @@ p:nth-child(3) {
 
 ```
 
-```
+```js
 // index.html
 
 <!DOCTYPE html>
@@ -214,13 +216,13 @@ p:nth-child(3) {
 ```
 刷新页面，执行过程如下图动画所示：
 
-![](https://mmbiz.qpic.cn/mmbiz_gif/2K5IuDFDWmicicagsOXODyxzIp66NicFibxPTo5jjf6JeeZhlz3Xc0N3Vg6C9bGhHWKpV7nqiciaNfgX59KiavSAiawGDw/0?wx_fmt=gif)
+![](/28.gif)
 
 从上面执行流程中发现，`style.css` 延迟10s后返回，页面dom 树被正常解析构建，但是没有被渲染展示。当css下载完成后，页面被被渲染并且样式生效。
 
 修改`index.html`中`style.css`的位置，将其移到body最下方，代码如下：
 
-```
+```js
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -240,7 +242,7 @@ p:nth-child(3) {
 
 刷新页面，执行过程如下图动画所示：
 
-![](https://mmbiz.qpic.cn/mmbiz_gif/2K5IuDFDWmicicagsOXODyxzIp66NicFibxPNSuTKqkibPtnFVmchnzTKSGVibVqaXtCKjWR1VyHTZxMT37XGxia28ufg/0?wx_fmt=gif)
+![](/29.gif)
 
 从动画中发现，`style.css`的延迟加载，没有阻塞前面的dom树的解析构建和渲染，渲染的`P`元素没有样式。当`style.css`下载完成后，元素的样式生效并展示。
 
@@ -253,7 +255,7 @@ p:nth-child(3) {
 
 修改node代码，对`code.png`做延时处理，具体代码如下：
 
-```
+```js
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -274,7 +276,7 @@ p:nth-child(3) {
 ```
 刷新页面，执行过程如下图动画所示：
 
-![](https://mmbiz.qpic.cn/mmbiz_gif/2K5IuDFDWmicicagsOXODyxzIp66NicFibxPf9sWw1G0IelV5PL1NmrAzeODUeo8mU100ia5ys0bC7Kq3q1JOdtsxuQ/0?wx_fmt=gif)
+![](/30.gif)
 
 从动画中可以发现，**图片既不阻塞解析，也不阻塞渲染。**
 

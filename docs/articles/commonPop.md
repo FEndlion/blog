@@ -1,3 +1,5 @@
+# 如何解决弹窗过多，导致的html结构臃肿问题
+
 ### 业务背景
 弹窗是页面交互中的重要组成部分，前端开发的同学应该经常与它打交道。小编的日常是做面向C端的H5活动页面，弹窗处理是每天都要面对的情况。根据日常工作中的场景，我总结了弹窗有以下特点：
 
@@ -13,23 +15,23 @@
 
 比如以下弹窗：
 
-![image](https://user-gold-cdn.xitu.io/2019/9/8/16d1019cc1292f42?w=340&h=171&f=png&s=14817)
+![image](/11.png)
 
-![image](https://user-gold-cdn.xitu.io/2019/9/8/16d1019cc1bdac61?w=338&h=194&f=png&s=21061)
+![image](/12.png)
 
-![image](https://user-gold-cdn.xitu.io/2019/9/8/16d1019cc1ae53ce?w=335&h=167&f=png&s=15391)
+![image](/13.png)
 
-![image](https://user-gold-cdn.xitu.io/2019/9/8/16d1019cc1978e75?w=339&h=168&f=png&s=19665)
+![image](/14.png)
 
 **这些还只是一类逻辑出现的弹窗，如果页面逻辑复杂，可能会出现几十个这种弹窗。上面的弹窗样式基本相同，不同的就是文案、按钮处理逻辑等，怎么抽离他们呢？**
 
-![image](https://user-gold-cdn.xitu.io/2019/9/8/16d1055afd887c82?w=510&h=283&f=webp&s=12810)
+![image](/15.jpg)
 
 ### 抽离方案
 
 **1. ES6 + Zepto 原生撸**
 
-```
+```js
 let commonPop = {
     init: function (param) {
         let popHtml = `<div class="m-popup-inner dn" id="commonPop">
@@ -66,7 +68,7 @@ let commonPop = {
 export default commonPop;
 ```
 **调用时只需要传对应参数就行，比如：**
-```
+```js
 import commonPop from './commonPop';
 
 // 第一个弹窗
@@ -115,7 +117,7 @@ commonPop.init(param);
 
 **2. VUE版本**
 
-```
+```js
 // commonPop.vue
 <template>
     <div v-if="show">
@@ -135,7 +137,7 @@ commonPop.init(param);
 </template>
 
 ```
-```
+```js
 // index.js
 import vue from 'vue'
 import popUpComponent from './commonPop.vue'
@@ -185,7 +187,7 @@ export default registryPopUp
 ```
 
 **调用时只需要传对应参数就行，比如：**
-```
+```js
 // 第一个弹窗
 let param = {
     title: '开通成功',
@@ -236,4 +238,4 @@ this.$popUp(param);
 ***
 **扫一扫 关注我的公众号【前端名狮】，更多精彩内容陪伴你！**
 
-![](https://user-gold-cdn.xitu.io/2019/9/8/16d105793144e24a?w=1080&h=309&f=webp&s=17610)
+![](/7.webp)
