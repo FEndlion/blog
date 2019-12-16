@@ -1,5 +1,5 @@
 module.exports = {
-    base: '/blog/',
+    base: '/',
     title: "前端名狮",
     description: "欢迎关注我的公众号【前端名狮】",
     ga: "UA-121061441-1",
