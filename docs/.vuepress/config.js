@@ -31,6 +31,7 @@ module.exports = {
             title: '原创文章',
             collapsable: false,
             children: [
+              "books",
               "activityPlatform",
               "commonPop",
               "time",
