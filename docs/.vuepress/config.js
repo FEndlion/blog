@@ -10,10 +10,10 @@ module.exports = {
       ['link', { rel: 'icon', href: '/logo.jpg' }]
     ],
     themeConfig: {
-      repo: "FEndlion/blog",
+      repo: "fe-toplion/blog",
       nav: [
         {
-          text: "博客",
+          text: "精选文章",
           link: "/articles/"
         },
         {
@@ -21,8 +21,8 @@ module.exports = {
           link: "/interview/"
         },
         {
-          text: "招聘信息",
-          link: "/jobs/"
+          text: "学习园地",
+          link: "/heaven/"
         },
       ],
       sidebar: {
@@ -31,7 +31,6 @@ module.exports = {
             title: '原创文章',
             collapsable: false,
             children: [
-              "books",
               "activityPlatform",
               "commonPop",
               "time",
@@ -59,12 +58,12 @@ module.exports = {
             ]
           }
         ],
-        "/jobs/": [
+        "/heaven/": [
           {
-            title: '2019年',
+            title: '阅读资料',
             collapsable: false,
             children: [
-              "job-iqiyi01"
+              "books"
             ]
           },
         ],
